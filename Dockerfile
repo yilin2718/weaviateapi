@@ -1,5 +1,9 @@
 FROM python:3.8.1-slim
 EXPOSE 8000
+
+extra_hosts:
+  docker.host: ${IP_ADDRESS}
+
 WORKDIR .
 COPY . .
 RUN pip install -r requirements.txt
