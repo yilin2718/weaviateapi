@@ -1,10 +1,8 @@
 FROM python:3.8.1-slim
 EXPOSE 8000
+COPY requirements.txt .
 
-extra_hosts:
-  docker.host: ${IP_ADDRESS}
-
-WORKDIR .
-COPY . .
+#WORKDIR /Users/yl/Desktop/weaviateapi
+COPY . ./
 RUN pip install -r requirements.txt
-CMD [ "uvicorn", "--host", "0.0.0.0", "--port", "8000","src.main:app"]
+CMD [ "uvicorn", "--host", "0.0.0.0", "--port", "8000","main:app"]
