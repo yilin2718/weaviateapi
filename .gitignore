@@ -132,3 +132,5 @@ dmypy.json
 ##  still under construction 
 Dockerfile
 log_congif.py
+
+scratch.py

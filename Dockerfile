@@ -1,4 +1,5 @@
-FROM python:3.8.1-slim
+
+FROM python:3.8.9-slim
 EXPOSE 8000
 COPY requirements.txt .
 
