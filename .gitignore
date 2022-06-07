@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # authentication stuff
-gcp_config/
+gcp-service-account-file.json
 
 ##  still under construction 
 Dockerfile
