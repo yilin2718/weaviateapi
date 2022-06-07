@@ -93,7 +93,7 @@ async def search(request: Request, search: str = Form(), model: QueryParse = Dep
      print(search_ner)
      results = get_query_for_ner_concept(search_ner)
      #results = get_query_for_ner_concept(search) -- THIS IS FOR DEBUGGING 
-     print(results)
+     #print(results)
 
     #  always make sure that we return a list, as frontend will iterate over it:
      if type(results) is not list:

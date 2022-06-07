@@ -1,12 +1,14 @@
 
 from spacy.lang.en import English
 from gensim.parsing.preprocessing import remove_stopwords
+from utilities import download_blob
 
 class QueryParse ():
 
   def __init__(self):
     self.nlp_model = English()
-    ruler = self.nlp_model.add_pipe("entity_ruler").from_disk("model/test1_NER_model_may28.jsonl")
+    nermodel = download_blob('mlops_vectorweaviate_capstone', 'ner_models/ner_model.jsonl','model/ner_model.jsonl')    
+    ruler = self.nlp_model.add_pipe("entity_ruler").from_disk("model/ner_model.jsonl")
 
 # this version of parse_query returns a dictionary 
   def parse_query (self, qry_request, context): 
