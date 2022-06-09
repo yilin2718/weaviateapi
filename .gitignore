@@ -136,3 +136,6 @@ Dockerfile
 log_congif.py
 
 scratch.py
+
+# dont have to upload the model file 
+.jsonl

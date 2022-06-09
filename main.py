@@ -78,7 +78,6 @@ def get_query_for_ner_concept(text_ner):
                 .with_limit(5)\
                 .with_where(where_filter)\
                 .do()
-       #         .with_near_text(near_text_filter)\
     else: # if search query doesnt have name to be regonized by NER 
         query_result = client.query\
         .get("Product", ["title", "description","price","mainCategory"])\
