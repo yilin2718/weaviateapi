@@ -7,8 +7,16 @@ class QueryParse ():
 
   def __init__(self):
     self.nlp_model = English()
-    nermodel = download_blob('mlops_vectorweaviate_capstone', 'ner_models/ner_model.jsonl','model/ner_model.jsonl')    
-    ruler = self.nlp_model.add_pipe("entity_ruler").from_disk("model/ner_model.jsonl")
+    self.nlp_model.add_pipe("entity_ruler").from_disk("model/ner_model.jsonl")
+
+  def set_new_ruler(self):
+    self.nlp_model = English()
+    # can modify this later, but for now, it will always download file called "ner_model.jsonl" this means when creating new models, 
+    # model created has to be called "ner_model.jsonl" in bucket
+    download_blob('mlops_vectorweaviate_capstone', 'ner_models/ner_model.jsonl','model/ner_model.jsonl')  
+    self.nlp_model.add_pipe("entity_ruler").from_disk("model/ner_model.jsonl")
+    print("download in new function ?")
+    return
 
 # this version of parse_query returns a dictionary 
   def parse_query (self, qry_request, context): 

@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from model.model_ner import QueryParse, get_model
 import weaviate 
+from utilities import download_blob
 
 # initiate the Weaviate client
 #client = weaviate.Client("http://localhost:8081") 
@@ -100,3 +101,10 @@ async def search(request: Request, search: str = Form(), model: QueryParse = Dep
           results = []
 
      return templates.TemplateResponse("frontpage.html", {"search": search, "results": results, "request": request})
+
+
+
+## write new end point of fetch_newest_model 
+@app.get("/fetchnewmodel")
+async def fetchnewmodel(request: Request, model: QueryParse = Depends(get_model)): 
+    model.set_new_ruler()
