@@ -9,10 +9,19 @@ from utilities import download_blob
 # initiate the Weaviate client
 #client = weaviate.Client("http://localhost:8081") 
 
-weaviate_url = 'http://34.67.249.252:8080/'
+# this is for text search, now has electronic product informtaiton 
+weaviate_url = 'http://34.67.249.252:8080/' 
 secret = weaviate.AuthClientPassword("admin", "admin")
 # Initiate the client with the secret
 client = weaviate.Client(weaviate_url, secret)
+
+
+# # this is for text search, now has electronic product informtaiton 
+# weaviate_url_image = 'http://34.67.249.252:8080/' 
+# secret_image = weaviate.AuthClientPassword("admin", "admin")
+# # Initiate the client with the secret
+# client_image = weaviate.Client(weaviate_url, secret)
+
 
 
 
@@ -59,12 +68,12 @@ def get_query_for_ner_concept(text_ner):
                      "operator": "Equal",
                      "valueString": text_ner['VENDOR']
                    })
-            elif key =='CATEGORY':
-                 operands_list.append({
-                     "path": ["category"],
-                     "operator": "Equal",
-                     "valueString": text_ner['CATEGORY']
-                   })
+            # elif key =='CATEGORY':
+            #      operands_list.append({
+            #          "path": ["category"],
+            #          "operator": "Equal",
+            #          "valueString": text_ner['CATEGORY']
+            #        })
             else: 
                 continue 
     if len(operands_list)>0:            
@@ -73,14 +82,14 @@ def get_query_for_ner_concept(text_ner):
             "operands": operands_list
             }    
         query_result = client.query\
-                .get("Product", ["title", "brand","description","price","mainCategory"])\
+                .get("Product", ["title", "brand","description"])\
                 .with_near_text(near_text_filter)\
                 .with_limit(5)\
                 .with_where(where_filter)\
                 .do()
     else: # if search query doesnt have name to be regonized by NER 
         query_result = client.query\
-        .get("Product", ["title", "description","price","mainCategory"])\
+        .get("Product", ["title", "description"])\
         .with_near_text(near_text_filter)\
         .with_limit(5)\
         .do()
@@ -92,8 +101,7 @@ async def search(request: Request, search: str = Form(), model: QueryParse = Dep
      search_ner=model.parse_query(search, 'xx')
      print(search_ner)
      results = get_query_for_ner_concept(search_ner)
-     #results = get_query_for_ner_concept(search) -- THIS IS FOR DEBUGGING 
-     #print(results)
+     print(results)
 
     #  always make sure that we return a list, as frontend will iterate over it:
      if type(results) is not list:
@@ -103,7 +111,7 @@ async def search(request: Request, search: str = Form(), model: QueryParse = Dep
 
 
 
-## write new end point of fetch_newest_model 
+## write new end point of fetch newest model 
 @app.get("/fetchnewmodel")
 async def fetchnewmodel(request: Request, model: QueryParse = Depends(get_model)): 
     model.set_new_ruler()
